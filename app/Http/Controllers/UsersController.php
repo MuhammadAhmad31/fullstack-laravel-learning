@@ -59,7 +59,26 @@ class UsersController extends Controller
             ],
         ];
 
-        return view('welcome', compact('card', 'dataTable'));
+        $user = [
+            'id' => 1,
+            'name' => 'John Doe',
+            'age' => 28,
+            'email' => 'john@example.com',
+            'role' => 'editor',
+            'permissions' => ['read', 'write'],
+            'gender' => 'M',
+            'bio' => 'This is John’s bio.',
+            'avatar' => 'john.png'
+        ];
+
+        $roleOptions = [
+            'admin' => 'Admin',
+            'editor' => 'Editor',
+            'user' => 'User',
+        ];
+
+
+        return view('welcome', compact('card', 'dataTable', 'user', 'roleOptions'));
     }
 
     /**
@@ -99,7 +118,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd($request->all());
     }
 
     /**

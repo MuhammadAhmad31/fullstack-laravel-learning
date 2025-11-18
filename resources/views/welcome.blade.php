@@ -38,7 +38,7 @@
         </div>
 
         <div class="h-[200px]">
-
+           {{ var_dump($user) }}
         </div>
 
 
@@ -68,6 +68,50 @@
                 Send Message
             </button>
         </form>
+      
+        <x-form-component
+            :fields="[
+                'name' => ['label' => 'Nama', 'type' => 'text'],
+                'age' => ['label' => 'Umur', 'type' => 'number'],
+                'bio' => ['label' => 'Bio'],
+                'role' => ['label' => 'Role'],
+                'permissions' => ['label' => 'Permissions'],
+                'gender' => ['label' => 'Gender']
+            ]"
+
+            :model="$user"
+
+            action="{{ route('users.update', $user['id']) }}"
+            method="PUT"
+            submitText="Save"
+
+            :formatters="[
+                'role' => [
+                    'view' => 'components.partials.formFormat.select',
+                    'options' => $roleOptions
+                ],
+
+                'permissions' => [
+                    'view' => 'components.partials.formFormat.checkbox',
+                    'options' => [
+                        'read' => 'Read',
+                        'write' => 'Write',
+                        'delete' => 'Delete',
+                    ]
+                ],
+
+                'gender' => [
+                    'view' => 'components.partials.formFormat.radio',
+                    'options' => [
+                        'M' => 'Male',
+                        'F' => 'Female',
+                    ]
+                ],
+
+                'bio' => 'components.partials.formFormat.textarea',
+            ]"
+        />
+
 
         @if (Route::has('login'))
             <div class="h-14.5 hidden lg:block"></div>
