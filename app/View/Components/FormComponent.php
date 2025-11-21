@@ -14,6 +14,7 @@ class FormComponent extends Component
     public $method;
     public $submitText;
     public $formatters;
+    public $errors;
 
     /**
      * Create a new component instance.
@@ -25,6 +26,7 @@ class FormComponent extends Component
         $method = 'POST',
         $submitText = 'Submit',
         $formatters = [],
+        $errors = null
     )
     {
         $this->fields = $fields;
@@ -33,6 +35,7 @@ class FormComponent extends Component
         $this->method = strtoupper($method);
         $this->submitText = $submitText;
         $this->formatters = $formatters;
+        $this->errors = $errors;
     }
 
     /**

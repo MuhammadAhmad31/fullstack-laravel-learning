@@ -32,6 +32,11 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'title' => 'required|min:5|max:100',
+            'content'  => 'required|min:10',
+        ]);
+
         PostModel::create([
             'title' => $request->input('title'),
             'content' => $request->input('content'),

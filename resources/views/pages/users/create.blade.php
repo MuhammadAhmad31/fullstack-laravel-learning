@@ -27,6 +27,7 @@
                 'email' => ['label' => 'Email', 'type' => 'email'],
                 'password' => ['label' => 'Password', 'type' => 'password'],
             ]"
+            :errors="$errors"
             :action="route('users.store')"
             method="POST"
             submitText="Simpan User"
