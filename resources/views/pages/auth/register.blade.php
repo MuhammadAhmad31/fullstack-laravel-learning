@@ -24,6 +24,7 @@
         <x-form-component
             :fields="[
                 'email' => ['label' => 'Email', 'type' => 'email'],
+                'name' => ['label' => 'Name', 'type' => 'text'],
                 'password' => ['label' => 'Password', 'type' => 'password'],
             ]"
             :errors="$errors"
