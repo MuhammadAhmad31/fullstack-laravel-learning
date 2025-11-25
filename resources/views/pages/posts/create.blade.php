@@ -26,12 +26,13 @@
                 'title' => ['label' => 'Title', 'type' => 'text'],
                 'content' => ['label' => 'Content'],
             ]"
+            :errors="$errors"
             :action="route('posts.store')"
-            method="POST"
-            submitText="Simpan Content"
             :formatters="[
                 'content' => 'components.partials.formFormat.textarea',
             ]"
+            method="POST"
+            submitText="Simpan Content"
         />
 
         @if (Route::has('login'))
