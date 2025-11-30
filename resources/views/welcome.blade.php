@@ -21,7 +21,7 @@
     </head>
     <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center min-h-screen flex-col">
 
-        <x-data-table 
+        {{-- <x-data-table 
             :headers="['ID', 'Name', 'Email', 'Photo', 'Balance', 'Status', 'Birth']"
             :items="$dataTable"
 
@@ -38,7 +38,7 @@
                 'status' => 'components.partials.tableFormat.badge',
                 'birth' => 'components.partials.tableFormat.date',
             ]"
-        />
+        /> --}}
 
         @if (Route::has('login'))
             <div class="h-14.5 hidden lg:block"></div>
