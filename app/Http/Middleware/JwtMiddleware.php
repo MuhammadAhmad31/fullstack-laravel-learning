@@ -7,6 +7,7 @@ use Exception;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Helpers\ApiResponse;
 
 class JwtMiddleware
 {
@@ -20,11 +21,11 @@ class JwtMiddleware
         try {
             JWTAuth::parseToken()->authenticate();
         } catch (Exception $e) {
-            return response()->json([
-                'message' => 
-                    $e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException ? 'Token expired' :
-                    ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException ? 'Token invalid' : 'Token not found')
-            ], 401);
+            return ApiResponse::error(
+                $e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException ? 'Token expired' :
+                ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException ? 'Token invalid' : 'Token not found'),
+                Response::HTTP_UNAUTHORIZED
+            );
         }
 
         return $next($request);
