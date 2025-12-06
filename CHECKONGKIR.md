@@ -398,4 +398,4 @@ curl -X POST -H "Authorization: Bearer your_api_token" \
 
 ## 7. Referensi
 
--   [Dokumentasi RajaOngkir](https://rajaongkir.com/dokumentasi)
+-   [Dokumentasi RajaOngkir](https://rajaongkir.com/docs/)
