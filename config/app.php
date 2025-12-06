@@ -123,4 +123,10 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    // RajaOngkir Configuration
+    'rajaongkir' => [
+        'base_url' => env('RAJAONGKIR_BASE_URL', 'https://rajaongkir.komerce.id/api/v1'),
+        'cost_api_key' => env('SHIPPING_COST_API_KEY', ''), 
+        'delivery_api_key' => env('SHIPPING_DELIVERY_API_KEY', ''),
+    ],
 ];
