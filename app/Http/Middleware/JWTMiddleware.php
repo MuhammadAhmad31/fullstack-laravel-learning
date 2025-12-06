@@ -9,6 +9,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Exception;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use App\Helpers\ApiResponse;
 
 class JWTMiddleware
 {

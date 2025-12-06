@@ -5,6 +5,9 @@ use App\Http\Controllers\PostsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SendMessage;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ShippingController;
+
+Route::get('/', [ShippingController::class, 'pageCheckOngkir'])->name('home');
 
 Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/', function () {
