@@ -48,6 +48,7 @@
             </div>
         </div>
         
+        <input class="border border-black px-3 py-2 mb-4" id="weight" value="1000" />
         <button id="checkBtn" class=" w-fit border border-black px-5 py-3 hover:bg-gray-400 transition cursor-pointer">
             Cek Ongkir
         </button>
@@ -134,6 +135,7 @@
         document.getElementById('checkBtn').addEventListener('click', async function() {
             const originDistrict = document.getElementById('originDistrict').value;
             const destinationDistrict = document.getElementById('destinationDistrict').value;
+            const weight = document.getElementById('weight').value;
 
             if(!originDistrict || !destinationDistrict) {
                 alert('Silahkan pilih asal dan tujuan dengan lengkap');
@@ -143,7 +145,7 @@
             const data = await post(`${API}/estimation`, {
                 origin: originDistrict,
                 destination: destinationDistrict,
-                weight: 1000,
+                weight: weight,
                 courier: 'jne:tiki:pos'
             });
 
