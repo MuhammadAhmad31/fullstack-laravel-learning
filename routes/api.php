@@ -17,8 +17,8 @@ Route::middleware('jwt.verify')->group(function () {
     ]);
 });
 
-Route::get('/rajaongkir/provinces', [RajaOngkirController::class, 'provinces']);
-Route::get('/rajaongkir/cities/{provinceId}', [RajaOngkirController::class, 'cities']);
-Route::post('/rajaongkir/cost', [RajaOngkirController::class, 'cost']);
-Route::get('/rajaongkir/district/{cityId}', [RajaOngkirController::class, 'district']);
-Route::get('/rajaongkir/subdistrict/{districtId}', [RajaOngkirController::class, 'subdistrict']);
+Route::get('/rajaongkir/provinces', [RajaOngkirController::class, 'provinces'])->name('rajaongkir.provinces');
+Route::get('/rajaongkir/cities/{provinceId}', [RajaOngkirController::class, 'cities'])->name('rajaongkir.cities');
+Route::post('/rajaongkir/cost', [RajaOngkirController::class, 'cost'])->name('rajaongkir.cost');
+Route::get('/rajaongkir/district/{cityId}', [RajaOngkirController::class, 'district'])->name('rajaongkir.district');
+Route::get('/rajaongkir/subdistrict/{districtId}', [RajaOngkirController::class, 'subdistrict'])->name('rajaongkir.subdistrict');

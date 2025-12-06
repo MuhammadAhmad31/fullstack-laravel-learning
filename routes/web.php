@@ -5,6 +5,9 @@ use App\Http\Controllers\PostsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SendMessage;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RajaOngkirController;
+
+Route::get('/', [RajaOngkirController::class, 'CheckOngkirPage'])->name('ongkir.page');
 
 Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/', function () {
