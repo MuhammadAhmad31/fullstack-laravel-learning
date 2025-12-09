@@ -20,7 +20,7 @@ class UsersController extends Controller
             return (array) $user;
         })->toArray();
 
-        return view('pages.users.index', compact('users', 'dataTable'));
+        return view('pages.users.index', compact('users', 'dataTable'))->with('data', $this->data);
     }
 
     /**

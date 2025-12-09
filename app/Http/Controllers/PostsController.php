@@ -16,7 +16,7 @@ class PostsController extends Controller
 
         $dataTable = $posts->toArray();
 
-        return view('pages.posts.index', compact('dataTable'));
+        return view('pages.posts.index', compact('dataTable'))->with('data', $this->data);
     }
 
     /**
