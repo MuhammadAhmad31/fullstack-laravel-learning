@@ -16,7 +16,9 @@ class PostsController extends Controller
 
         $dataTable = $posts->toArray();
 
-        return view('pages.posts.index', compact('dataTable'));
+        $this->data['dataTable'] = $dataTable;
+
+        return view('pages.posts.index', $this->data);
     }
 
     /**
@@ -24,7 +26,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('pages.posts.create');
+        return view('pages.posts.create', $this->data);
     }
 
     /**
@@ -61,9 +63,9 @@ class PostsController extends Controller
     {
         $posts = PostModel::where('id', $id)->first();
 
-        $existingPosts = $posts->toArray();
+        $this->data['existingPosts'] = $posts->toArray();
 
-        return view('pages.posts.edit', compact('existingPosts'));
+        return view('pages.posts.edit', $this->data);
     }
 
     /**

@@ -14,13 +14,13 @@ class UsersController extends Controller
     public function index()
     {
 
-        $users = DB::table('users')->select('id', 'name', 'email')->get();
+        $this->data['users'] = DB::table('users')->select('id', 'name', 'email')->get();
 
-        $dataTable = $users->map(function ($user) {
+        $this->data['dataTable'] = $this->data['users']->map(function ($user) {
             return (array) $user;
         })->toArray();
 
-        return view('pages.users.index', compact('users', 'dataTable'));
+        return view('pages.users.index', $this->data);
     }
 
     /**
@@ -28,7 +28,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('pages.users.create');
+        return view('pages.users.create', $this->data);
     }
 
     /**
@@ -60,9 +60,9 @@ class UsersController extends Controller
     {
         $user = DB::table('users')->where('id', $id)->first();
 
-        $existingUser = $user ? (array) $user : null;
+        $this->data['existingUser'] = $user ? (array) $user : null;
 
-        return view('pages.users.edit', compact('existingUser'));
+        return view('pages.users.edit', $this->data);
     }
 
     /**
