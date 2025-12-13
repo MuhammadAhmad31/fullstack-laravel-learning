@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ProductCreatedMail;
+use App\Mail\ProductCreatedMailWithQueue;
 
 class ProductController extends Controller
 {
@@ -13,9 +17,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $data = Product::all();
+        $products = Cache::remember('products_all', 60, function () {
+            return Product::all();
+        });
 
-        return ApiResponse::success($data);
+        return ApiResponse::success($products);
     }
 
     /**
@@ -29,27 +35,34 @@ class ProductController extends Controller
             'price' => 'required|integer',
         ]);
 
-        if(!$validated) {
-            return ApiResponse::error('Validation Error', 422);
-        }
+        $product = Product::create($validated);
 
-        $product = Product::create([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'price' => $request->input('price'),
-        ]);
+        // ❌ TANPA QUEUE (BLOCKING)
+        Mail::to('test@example.com')
+            ->send(new ProductCreatedMail($product));
 
-        return ApiResponse::success($product, "Product created successfully", 201);
+        /// ✅ DENGAN QUEUE (NON-BLOCKING)
+        // Mail::to('test@example.com')
+        //     ->queue(new ProductCreatedMailWithQueue($product));
+
+        Cache::forget('products_all');
+
+        return ApiResponse::success(
+            $product,
+            'Product created & email sent (sync)',
+            201
+        );
     }
-
     /**
      * Display the specified resource.
      */
-    public function show(String $id)
+    public function show(string $id)
     {
-        $product = Product::find($id);
+        $product = Cache::remember("product_{$id}", 60, function () use ($id) {
+            return Product::find($id);
+        });
 
-        if(!$product) {
+        if (!$product) {
             return ApiResponse::error('Product not found', 404);
         }
 
@@ -59,11 +72,11 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, String $id)
+    public function update(Request $request, string $id)
     {
         $product = Product::find($id);
 
-        if(!$product) {
+        if (!$product) {
             return ApiResponse::error('Product not found', 404);
         }
 
@@ -73,11 +86,10 @@ class ProductController extends Controller
             'price' => 'sometimes|required|integer',
         ]);
 
-        if(!$validated) {
-            return ApiResponse::error('Validation Error', 422);
-        }
-
         $product->update($validated);
+
+        Cache::forget('products_all');
+        Cache::forget("product_{$id}");
 
         return ApiResponse::success($product);
     }
@@ -85,15 +97,18 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(String $id)
+    public function destroy(string $id)
     {
         $product = Product::find($id);
 
-        if(!$product) {
+        if (!$product) {
             return ApiResponse::error('Product not found', 404);
         }
 
         $product->delete();
+
+        Cache::forget('products_all');
+        Cache::forget("product_{$id}");
 
         return ApiResponse::success(null, 'Product deleted successfully');
     }
