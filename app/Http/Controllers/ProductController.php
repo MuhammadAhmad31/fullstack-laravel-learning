@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ProductCreatedMail;
 
 class ProductController extends Controller
 {
@@ -13,7 +16,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $data = Product::all();
+        $data = Cache::remember('products_all', 60, function () {
+            return Product::all();
+        });
 
         return ApiResponse::success($data);
     }
@@ -39,6 +44,10 @@ class ProductController extends Controller
             'price' => $request->input('price'),
         ]);
 
+        Mail::to('recipient@example.com')->queue(new ProductCreatedMail($product));
+
+        Cache::forget('products_all');
+
         return ApiResponse::success($product, "Product created successfully", 201);
     }
 
@@ -47,7 +56,9 @@ class ProductController extends Controller
      */
     public function show(String $id)
     {
-        $product = Product::find($id);
+        $product = Cache::remember("product_{$id}", 60, function () use ($id) {
+            return Product::find($id);
+        });
 
         if(!$product) {
             return ApiResponse::error('Product not found', 404);
@@ -79,6 +90,9 @@ class ProductController extends Controller
 
         $product->update($validated);
 
+        Cache::forget("product_{$id}");
+        Cache::forget('products_all');
+
         return ApiResponse::success($product);
     }
 
@@ -94,6 +108,9 @@ class ProductController extends Controller
         }
 
         $product->delete();
+
+        Cache::forget("product_{$id}");
+        Cache::forget('products_all');
 
         return ApiResponse::success(null, 'Product deleted successfully');
     }

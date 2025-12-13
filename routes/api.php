@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\API\AuthApiController;
 use App\Http\Controllers\ShippingController;
+use App\Http\Controllers\API\PostsController;
 
 Route::post('/login', [AuthApiController::class, 'login'])->name('api.auth.login');
 
@@ -15,7 +16,16 @@ Route::middleware('jwt.verify')->group(function () {
         'update' => 'products.update',
         'destroy' => 'products.delete',
     ]);
+
+    Route::apiResource('posts', PostsController::class)->names([
+        'index' => 'posts.list',
+        'show' => 'posts.detail',
+        'store' => 'posts.create',
+        'update' => 'posts.update',
+        'destroy' => 'posts.delete',
+    ]);
 });
+
 
 Route::get('/shipping/provinces', [ShippingController::class, 'getProvinces'])->name('shipping.provinces');
 Route::get('/shipping/cities/{provinceId}', [ShippingController::class, 'getCities'])->name('shipping.cities');
