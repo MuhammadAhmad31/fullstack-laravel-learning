@@ -75,3 +75,14 @@ drwxrwsr-x trainer www-data
 - Tidak perlu `sudo` di user → murid bisa langsung clone & run Laravel
 - Hanya setting sekali di root → berlaku untuk semua murid
 
+
+## How to Reset Laravel file
+
+```bash
+sudo /root/reset_user_laravel.sh trainer
+```
+Jalankan untuk murid tertentu, misal murid3:
+
+``` bash
+sudo /root/reset_user_laravel.sh murid3
+```
